@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cursor Chase Illusion</title>
+    <style>
+        body {
+            cursor: none; /* Hides the mouse cursor */
+        }
+        #fakeCursor {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: black;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="fakeCursor"></div>
+
+<script>
+    const fakeCursor = document.getElementById('fakeCursor');
+    let mouseX = 0, mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        moveFakeCursor();
+    });
+
+    function moveFakeCursor() {
+        // Determine the fake cursor's next position (simple logic to move away from the real cursor)
+        let fakeX = mouseX + (50);
+        let fakeY = mouseY + (50);
+
+        // Apply the new position
+        fakeCursor.style.left = `${fakeX}px`;
+        fakeCursor.style.top = `${fakeY}px`;
+    }
+</script>
+
+</body>
+</html>
