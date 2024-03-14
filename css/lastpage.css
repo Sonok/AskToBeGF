@@ -1,0 +1,69 @@
+body {
+  text-align: center;
+  margin-top: 30px;
+  font-family: "Courier New", Courier, monospace;
+  background-color: #fff5e4;
+  color: #ff9494;
+  padding: 20px;
+}
+
+.heart-btn {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background-color: #ff6384;
+  transform: rotate(45deg);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.heart-btn:before,
+.heart-btn:after {
+  position: absolute;
+  content: '';
+  border-radius: 50%;
+  background-color: #ff6384;
+  width: 200px;
+  height: 200px;
+}
+
+.heart-btn:before {
+  bottom: 0;
+  left: -100px;
+}
+
+.heart-btn:after {
+  top: -100px;
+  right: 0;
+}
+
+.heart-btn span {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #ff6384;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-45deg);
+  font-size: 24px;
+  color: white;
+}
+
+
+#rizz {
+  display: none;
+  max-width: 90%;
+  margin: 20px auto;
+  height: auto;
+}
+
+#my_audio {
+  display: none;
+  margin: 20px auto;
+}
