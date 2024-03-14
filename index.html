@@ -3,30 +3,130 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Be My girlfriend?</title>
+    <title>Be My gf</title>
     <link rel="stylesheet" href="css/main.css" />
+    <style>
+      img {
+        pointer-events: none;
+        /* doing this makes sure .elementFromPoint
+        do not acquires the image cursor object */
+        position: absolute;
+      }
+      /* makes the cursor invisible */
+      
+      * {
+        cursor: none;
+      }
+      .answerButton {
+        cursor: none; /* This makes the cursor invisible only over the buttons */
+      }
+      
+    </style>
   </head>
   <body>
-    <div id="valentineQuestion"><b>Will you be my girlfriend?</b></div>
-    <button class="answerButton" onclick="location.href='thankyou.html'">
+    <h1 class="main-title">Will you be my girlfriend Krishna?</h1>
+    <button class="answerButton" id="yes" onclick="location.href='heart.html'">
       Yes
     </button>
-    <button class="answerButton" id="noButton">I no no wanna o(╥﹏╥)o</button>
+    <button class="answerButton" id="no" title="HaHa! LIKE YOU EVEN HAVE A CHOICE!">I no no wanna o(╥﹏╥)o</button>
     <br />
-    <img src="cat.gif" alt="cat asking question" class="responsive" />
+    <div class="image-container">
+      <img src="pictures/cat.gif" alt="cat asking question" class="responsive" />
+    </div>
+  
 
+    <img id="cursor" src="https://media.geeksforgeeks.org/wp-content/uploads/20200319212118/cursor2.png" width="15" height="20" />
+
+  
     <script>
-      document
-        .getElementById("noButton")
-        .addEventListener("click", function () {
-          var yesButton = document.querySelector(
-            'button[onclick*="thankyou.html"]'
-          );
-          var currentFontSize = parseInt(
-            window.getComputedStyle(yesButton).fontSize
-          );
-          yesButton.style.fontSize = currentFontSize + 10 + "px"; // Increase font size by 5px
-        });
+      var x, y; // mouse settings
+      var px, py; // offset
+      px = py = 0; // offset to move mouse left and above the normal mouse
+      var followCursor = true;
+      
+      // Image of cursor
+      var cursor = document.getElementById("cursor");
+      
+      // Button 1
+      var b1 = document.getElementById("yes");
+      
+      // Button 2
+      var b2 = document.getElementById("no");
+      
+      /* mutex is used to avoid multiple click event from
+      firing at the same time due to different position
+      of image cursor and actual cursor
+      Using mutex avoid any conflicts if original cursor and
+      image cursor are both on a clickable element
+      This makes sure only 1 click event is triggered at a time*/
+        
+      var mutex = false;
+      
+      /*
+      The following event is selecting the element
+      on the image cursor and fires click() on it.
+      The following event is triggered only when mouse is pressed.
+      */
+      window.addEventListener("mouseup", function(e) {
+      
+        // gets the object on image cursor position
+        var tmp = document.elementFromPoint(x + px, y + py);
+        mutex = true;
+        tmp.click();
+      })
+      
+      /* The following event listener moves the image pointer
+      with respect to the actual mouse cursor
+      The function is triggered every time mouse is moved */
+      window.addEventListener("mousemove", function(e) {
+      
+        // Gets the x,y position of the mouse cursor
+        x = e.clientX;
+        y = e.clientY;
+      
+        // sets the image cursor to new relative position
+        cursor.style.left = (px + x) + "px";
+        cursor.style.top = (py + y) + "px";
+      
+      });
+      let hoverText = document.getElementById("hoverText");
+      
+      /* The following function re-calculates px,py
+      with respect to new position
+      Clicking on b2 moves the pointer to b1 */
+      // Attach an event listener to the "Yes" button for navigation
+      b1.addEventListener('click', function() {
+          window.location.href = 'heart.html';
+      });
+
+    
+      b2.onclick = function() {
+        if (mutex) {
+        mutex = false;
+        followCursor = false;
+        
+        // Ensure we recalculate the button's position at the time of the click,
+        // in case of any changes due to viewport resizing or scrolling.
+        var buttonRect = b1.getBoundingClientRect();
+        
+        // Calculate the new position for the custom cursor, aiming to center it over the button.
+        // This takes into account the button's position, its dimensions, and half of the cursor's dimensions for centering.
+        px = buttonRect.left + window.scrollX + (buttonRect.width / 2) - (cursor.offsetWidth / 2);
+        py = buttonRect.top + window.scrollY + (buttonRect.height / 2) - (cursor.offsetHeight / 2);
+
+        // Apply the new position to the custom cursor.
+        cursor.style.left = px + 'px';
+        cursor.style.top = py + 'px';
+
+        // Optionally, apply any additional effects, such as enlarging the "Yes" button font as intended.
+        var currentFontSize = parseInt(window.getComputedStyle(b1).fontSize);
+        b1.style.fontSize = (currentFontSize + 10) + 'px';
+        setTimeout(() => {
+                followCursor = true;
+            }, 75); // Adjust the delay as needed
+        }
+};
+
     </script>
   </body>
 </html>
