@@ -75,3 +75,8 @@ img.responsive { /* This is just to modify the cat gif */
   border: 2px solid #ff9494;
   box-shadow: 1px 1px 2px #ffe3e1;
 }
+
+.container { /* Or body, or any other specific container */
+  position: relative;
+}
+
