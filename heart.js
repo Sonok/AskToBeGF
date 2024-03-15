@@ -26,10 +26,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Show and play the celebration audio
         celebrationAudio.style.display = 'block';
-        celebrationAudio.play().catch(e => console.error("Playback was prevented. Please interact with the audio controls manually.", e));
+        replayAudio(); // Corrected this line
     });
     
 });
+
+function replayAudio() {
+    var audio = document.getElementById("celebrationAudio");
+    audio.currentTime = 0; // Reset audio position to the start
+    audio.loop = true;
+    audio.play().catch(e => console.error("Playback was prevented. Please interact with the audio controls manually.", e));
+}
 
 
 
